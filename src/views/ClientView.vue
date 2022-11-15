@@ -55,44 +55,49 @@ const formSubmit = (formRef) => {
   })
 }
 
+// 重置表单
 const resetForm = (formRef) => {
   if (!formRef) return
   formRef.resetFields()
 }
 
-
-list.forEach(item => {
-  if(item.type === 'input') {
-    rules[item.id] = [{ required: item.required || false, message: '请输入', trigger: 'blur' }]
-  }
-  if(item.type === 'radio') {
-    rules[item.id] = [{ required: item.required || false, message: '请选择', trigger: 'change' }]
-  }
-  if(item.type === 'checkbox') {
-    rules[item.id] = [{ required: item.required || false, message: '请选择', trigger: 'change' }]
-  }
-})
-
-
 onMounted(() => {
-  // 模拟默认数据设置
-  setFormData()
+  // setFormRuls()
+  // setDefaultFormData()
 })
+
+// 设置表单校验规则
+const setFormRuls = () => {
+  list.forEach(item => {
+    if (item.type === 'input') {
+      rules[item.id] = [{ required: item.required, message: '请输入', trigger: 'blur' }]
+    }
+    if (item.type === 'radio') {
+      rules[item.id] = [{ required: item.required, message: '请选择', trigger: 'change' }]
+    }
+    if (item.type === 'checkbox') {
+      rules[item.id] = [{ required: item.required, message: '请选择', trigger: 'change' }]
+    }
+  })
+}
 
 // 设置表单数据
-const setFormData = ()=> {
-  list.forEach(v=> {
-    if(v.type === 'input') {
-      ruleForm[v.id] = ''
+const setDefaultFormData = () => {
+  list.forEach(item => {
+    if (item.type === 'input') {
+      ruleForm[item.id] = ''
     }
-    if(v.type === 'radio') {
-      ruleForm[v.id] = ''
+    if (item.type === 'radio') {
+      ruleForm[item.id] = ''
     }
-    if(v.type === 'checkbox') {
-      ruleForm[v.id] = []
+    if (item.type === 'checkbox') {
+      ruleForm[item.id] = []
     }
-  })  
+  })
 }
+
+setFormRuls()
+setDefaultFormData()
 
 </script>
 

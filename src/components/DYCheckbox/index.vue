@@ -1,8 +1,6 @@
 <template>  
     <el-checkbox-group v-model="compVal" :disabled="itemData.disabled">
-        <el-checkbox label="1">Option 1</el-checkbox>
-        <el-checkbox label="2">Option 2</el-checkbox>
-        <el-checkbox label="3">Option 3</el-checkbox>
+        <el-checkbox :label="item.value"  v-for="item in itemData.config.options" :key="item.value">{{ item.name }}</el-checkbox>     
     </el-checkbox-group>
 </template>
 <script setup>

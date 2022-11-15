@@ -1,14 +1,14 @@
 <template>
-    <div class="c-mb20">
-        <div class="c-mb10">组件标题</div>
-        <el-input v-model="activeC.name" />
+    <div class="mt10">
+        <div>组件标题</div>
+        <el-input v-model="activeComp.name" />
     </div>
-    <el-checkbox v-model="activeC.required" label="是否必填" />
-    <el-checkbox v-model="activeC.disabled" label="是否禁用" />
+    <el-checkbox v-model="activeComp.required" label="是否必填" />
+    <el-checkbox v-model="activeComp.disabled" label="是否禁用" />
 </template>
 <script setup>
 defineProps({
-    activeC: {
+    activeComp: {
         type: Object,
         default: () => ({})
     }

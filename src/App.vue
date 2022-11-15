@@ -2,13 +2,15 @@
 import { RouterView } from 'vue-router'
 </script>
 
-<template> 
-    <RouterView v-slot="{ Component }"> 
+<template>
+  <RouterView></RouterView>
+  <!-- <RouterView v-slot="{ Component }"> 
       <keepAlive>
         <component :is="Component"></component>
       </keepAlive>
-    </RouterView> 
+    </RouterView>  -->
 </template>
 
 <style scoped>
+
 </style>

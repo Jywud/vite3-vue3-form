@@ -2,7 +2,7 @@
   <div class="page">
     <div class="component-container">
       <h3>组件库</h3>
-      <draggable class="dragArea list-group" ghost-class="ghost" :list="origComponents"
+      <draggable class="list-group" ghost-class="ghost" :list="origComponents"
         :group="{ name: 'dragComponets', pull: 'clone', put: false }" :clone="handleClone" item-key="type">
         <template #item="{ element }">
           <div class="list-group-item" :data-name="element.name">
@@ -20,12 +20,14 @@
       </div>
       <draggable class="dragArea form-group" :list="formComponents" group="dragComponets" item-key="name">
         <template #item="{ element, index }">
-          <div class="form-item-wrap" :class="{ isActive: activeC.id === element.id }" @click="selectComp(element)">
+          <div class="form-item-wrap" :class="{ isActive: activeComp.id === element.id }" @click="selectComp(element)">
             <div class="form-title-bar"><span v-if="element.required" style="color: red">*</span><span>{{ element.name
             }}</span></div>
             <component :is="element.componentView" :itemData="element" model="design"></component>
-            <el-button type="danger" :icon="Delete" circle @click="formComponents.splice(index, 1)" />
-            <el-button type="primary" :icon="Star" circle @click="cloneComp(element, index)" />
+            <div class="form-btns">
+              <el-button type="danger" :icon="Delete" circle @click="formComponents.splice(index, 1)" />
+              <el-button type="primary" :icon="Star" circle @click="cloneComp(element, index)" />
+            </div>
           </div>
         </template>
       </draggable>
@@ -33,14 +35,14 @@
     <div class="config-container">
       <h3>组件配置</h3>
       <div class="config-content-box">
-        <component :is="activeC.componentConfig" :activeC="activeC"></component>
+        <component :is="activeComp.componentConfig" :activeComp="activeComp"></component>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, watch, toRaw, markRaw } from 'vue';
+import { ref, reactive, watch, toRaw, onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable';
 import {
@@ -60,8 +62,9 @@ import TextareaInfoConfig from '@c/TextareaInfo/config.vue';
 
 let router = useRouter()
 let dragCompStore = useDragCompStore()
-let activeC = ref({});
-const formComponents = reactive([]); //表单组件列表
+let activeComp = ref({});
+let formComponents = ref([]); //表单组件列表
+
 const compMap = {
   'input': {
     componentView: DYInput,
@@ -78,31 +81,38 @@ const compMap = {
   'textarea': {
     componentView: TextareaInfo,
     componentConfig: TextareaInfoConfig
-  } 
+  }
 }
 
 // 组件库
 const origComponents = [
   {
     name: '输入框',
-    type: 'input',   
+    type: 'input',
     required: false,
     disabled: false,
+    placeholder: '',
     defaultValue: ''
   },
   {
     name: '单选框',
-    type: 'radio',   
+    type: 'radio',
     required: false,
     disabled: false,
-    defaultValue: ''
+    defaultValue: '',
+    config: {
+      options: [{ value: '1', name: '选项一' }, { value: '2', name: '选项二' }]
+    }
   },
   {
     name: '复选框',
-    type: 'checkbox',   
+    type: 'checkbox',
     required: false,
     disabled: false,
-    defaultValue: []
+    defaultValue: [],
+    config: {
+      options: [{ value: '1', name: '选项一' }, { value: '2', name: '选项二' }]
+    }
   },
   {
     name: '多行文本说明',
@@ -110,6 +120,16 @@ const origComponents = [
     content: '多行文本内容多行文本内容多行文本内容',
   }
 ];
+
+onMounted(() => {
+  let previewList = sessionStorage.getItem('previewList')
+  if (previewList) {
+    let listcomp = JSON.parse(previewList)
+    formComponents.value = listcomp.map(item => {
+      return setDrawingComp(item)
+    })
+  }
+})
 
 // 获取唯一的组件id
 const getId = () => {
@@ -128,20 +148,20 @@ const handleClone = (obj) => {
 }
 
 const selectComp = (element) => {
-  activeC.value = element
-  dragCompStore.activeComp = activeC
+  activeComp.value = element
+  dragCompStore.activeCompomp = activeComp
 }
 
 // 克隆组件
-const cloneComp =(comp, index)=> {
+const cloneComp = (comp, index) => {
   const obj = toRaw(comp);
   const copyObj = JSON.parse(JSON.stringify(obj))
-  formComponents.splice(index, 0, setDrawingComp(copyObj))
+  formComponents.value.splice(index, 0, setDrawingComp(copyObj))
 }
 
 // 导出json,暂存sessionStorage
 const exportJSON = () => {
-  let list = toRaw(formComponents)
+  let list = toRaw(formComponents.value)
   console.log(list);
   sessionStorage.setItem('previewList', JSON.stringify(list))
 }
@@ -153,7 +173,7 @@ const preView = () => {
 }
 
 // 保存表单
-const saveForm = ()=> {
+const saveForm = () => {
 
 }
 
@@ -169,7 +189,7 @@ const saveForm = ()=> {
   display: flex;
 
   .component-container {
-    width: 350px;
+    width: 320px;
   }
 
   .form-container {
@@ -181,25 +201,35 @@ const saveForm = ()=> {
     }
   }
 
+  .list-group {
+    display: flex;
+    flex-wrap: wrap;
+
+    .list-group-item {
+      line-height: 40px;     
+      background-color: #999;
+      margin-bottom: 10px;
+      cursor: move;
+      width: 150px;
+      text-align: center;
+      font-size: 13px;
+      margin-right: 5px;
+    }
+  }
+
   .config-container {
     width: 400px;
   }
 }
 
-.list-group-item {
-  padding: 10px;
-  background-color: #999;
-  margin-bottom: 10px;
-  cursor: move;
-  width: 50%;
-  text-align: center;
-}
+
 
 .form-item-wrap {
   padding: 8px 5px;
 
   &.isActive {
     border: 1px solid red;
+    background-color: #fffbf1;
   }
 }
 

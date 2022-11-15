@@ -1,7 +1,6 @@
 <template>  
     <el-radio-group v-model="compVal" :disabled="itemData.disabled">
-        <el-radio label="1" size="large">Option 1</el-radio>
-        <el-radio label="2" size="large">Option 2</el-radio>
+        <el-radio :label="item.value"  v-for="item in itemData.config.options" :key="item.value">{{ item.name }}</el-radio>
     </el-radio-group>
 </template>
 <script setup>

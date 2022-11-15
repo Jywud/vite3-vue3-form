@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useDragCompStore = defineStore('dragComp', () => {
-  const activeComp = ref({}) 
+  const activeCompomp = ref({}) 
 
-  return { activeComp }
+  return { activeCompomp }
 })

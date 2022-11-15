@@ -1,11 +1,11 @@
 <template>
     <div class="c-mb20">
         <div class="c-mb10">模块标题</div>
-        <el-input v-model="activeC.name" />
+        <el-input v-model="activeComp.name" />
     </div>
     <div class="c-mb20">
         <div class="c-mb10">多行文本内容</div>
-        <el-input v-model="activeC.content" :rows="4" type="textarea" placeholder="请输入" />
+        <el-input v-model="activeComp.content" :rows="4" type="textarea" placeholder="请输入" />
     </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
         return {};
     },
     props: {
-        activeC: {}
+        activeComp: {}
     }
 };
 </script>
