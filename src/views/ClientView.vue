@@ -27,7 +27,7 @@ const compMap = {
   'checkbox': {
     componentView: DYCheckbox
   },
-  'textarea': {
+  'textareaInfo': {
     componentView: TextareaInfo
   }
 }

@@ -14,11 +14,10 @@
     <div class="form-container">
       <h3>表单编辑 </h3>
       <div class="form-btns">
-        <!-- <el-button type="primary" @click="exportJSON">导出json</el-button> -->
         <el-button type="primary" @click="preView">预览表单</el-button>
         <el-button type="primary" @click="saveForm">保存</el-button>
       </div>
-      <draggable class="dragArea form-group" :list="formComponents" group="dragComponets" item-key="name">
+      <draggable class="dragArea form-group" :list="formComponents" group="dragComponets" animation="300" item-key="name">
         <template #item="{ element, index }">
           <div class="form-item-wrap" :class="{ isActive: activeComp.id === element.id }" @click="selectComp(element)">
             <div class="form-title-bar"><span v-if="element.required" style="color: red">*</span><span>{{ element.name
@@ -42,9 +41,10 @@
 </template>
 
 <script setup>
-import { ref, reactive, toRaw, onMounted } from 'vue';
+import { ref, shallowRef, reactive, toRaw, onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable';
+import { ElMessage } from 'element-plus'
 import {
   Delete, Star
 } from '@element-plus/icons-vue'
@@ -78,7 +78,7 @@ const compMap = {
     componentView: DYCheckbox,
     componentConfig: DYCheckboxConfig
   },
-  'textarea': {
+  'textareaInfo': {
     componentView: TextareaInfo,
     componentConfig: TextareaInfoConfig
   }
@@ -116,7 +116,7 @@ const origComponents = [
   },
   {
     name: '多行文本说明',
-    type: 'textarea',
+    type: 'textareaInfo',
     content: '多行文本内容多行文本内容多行文本内容',
   }
 ];
@@ -175,6 +175,10 @@ const preView = () => {
 // 保存表单
 const saveForm = () => {
   exportJSON()
+  ElMessage({
+    message: '保存成功',
+    type: 'success',
+  })
 }
 </script>
 
@@ -236,8 +240,8 @@ const saveForm = () => {
 }
 
 .form-group {
-  height: 500px;
-  padding: 6px;
+  // height: 500px;
+  padding: 20px 10px;
   border: 2px solid #000;
   border-radius: 4px;
 }
