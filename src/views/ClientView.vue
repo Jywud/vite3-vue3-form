@@ -13,14 +13,22 @@
 <script setup>
 import { ref, reactive, onMounted, toRaw } from 'vue';
 import DYInput from '@c/DYInput/index.vue';
-import textareaInfo from '@c/textareaInfo/index.vue';
+import DYRadio from '@c/DYRadio/index.vue';
+import DYCheckbox from '@c/DYCheckbox/index.vue';
+import TextareaInfo from '@c/TextareaInfo/index.vue';
 
 const compMap = {
   'input': {
     componentView: DYInput
   },
+  'radio': {
+    componentView: DYRadio
+  },
+  'checkbox': {
+    componentView: DYCheckbox
+  },
   'textarea': {
-    componentView: textareaInfo
+    componentView: TextareaInfo
   }
 }
 
@@ -54,7 +62,15 @@ const resetForm = (formRef) => {
 
 
 list.forEach(item => {
-  rules[item.id] = [{ required: item.required || false, message: '请输入', trigger: 'blur' }]
+  if(item.type === 'input') {
+    rules[item.id] = [{ required: item.required || false, message: '请输入', trigger: 'blur' }]
+  }
+  if(item.type === 'radio') {
+    rules[item.id] = [{ required: item.required || false, message: '请选择', trigger: 'change' }]
+  }
+  if(item.type === 'checkbox') {
+    rules[item.id] = [{ required: item.required || false, message: '请选择', trigger: 'change' }]
+  }
 })
 
 
@@ -66,7 +82,15 @@ onMounted(() => {
 // 设置表单数据
 const setFormData = ()=> {
   list.forEach(v=> {
-    ruleForm[v.id] = ''
+    if(v.type === 'input') {
+      ruleForm[v.id] = ''
+    }
+    if(v.type === 'radio') {
+      ruleForm[v.id] = ''
+    }
+    if(v.type === 'checkbox') {
+      ruleForm[v.id] = []
+    }
   })  
 }
 

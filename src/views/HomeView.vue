@@ -16,13 +16,13 @@
       <div class="form-btns">
         <el-button type="primary" @click="exportJSON">导出json</el-button>
         <el-button type="primary" @click="preView">预览表单</el-button>
-        <el-button type="primary" @click="getActiveByStore">当前焦点组件</el-button>
+        <el-button type="primary" @click="saveForm">保存</el-button>
       </div>
       <draggable class="dragArea form-group" :list="formComponents" group="dragComponets" item-key="name">
         <template #item="{ element, index }">
           <div class="form-item-wrap" :class="{ isActive: activeC.id === element.id }" @click="selectComp(element)">
             <div class="form-title-bar"><span v-if="element.required" style="color: red">*</span><span>{{ element.name
-            }}：</span></div>
+            }}</span></div>
             <component :is="element.componentView" :itemData="element" model="design"></component>
             <el-button type="danger" :icon="Delete" circle @click="formComponents.splice(index, 1)" />
             <el-button type="primary" :icon="Star" circle @click="cloneComp(element, index)" />
@@ -51,113 +51,65 @@ import { useDragCompStore } from '@/stores/dragComp'
 
 import DYInput from '@c/DYInput/index.vue';
 import DYInputConfig from '@c/DYInput/config.vue';
-
-import textareaInfo from '@c/textareaInfo/index.vue';
-import textareaInfoConfig from '@c/textareaInfo/config.vue';
-
-// import brandPicture from '@c/brandPicture/index.vue';
-// import brandPictureConfig from '@c/brandPicture/config.vue';
-
-// import productIntro from '@c/productIntro/index.vue';
-// import productIntroConfig from '@c/productIntro/config.vue';
-
-// import originatorIntro from '@c/originatorIntro/index.vue';
-// import originatorIntroConfig from '@c/originatorIntro/config.vue';
+import DYRadio from '@c/DYRadio/index.vue';
+import DYRadioConfig from '@c/DYRadio/config.vue';
+import DYCheckbox from '@c/DYCheckbox/index.vue';
+import DYCheckboxConfig from '@c/DYCheckbox/config.vue';
+import TextareaInfo from '@c/TextareaInfo/index.vue';
+import TextareaInfoConfig from '@c/TextareaInfo/config.vue';
 
 let router = useRouter()
 let dragCompStore = useDragCompStore()
 let activeC = ref({});
-const formComponents = reactive([]);
-
-// const compMap = {
-//   'input': {
-//     componentView: ()=> import('@c/DYInput/index.vue'),
-//     componentConfig: ()=> import('@c/DYInput/config.vue')
-//   },
-//   'textarea': {
-//     componentView: ()=> import('@c/textareaInfo/index.vue'),
-//     componentConfig: ()=> import('@c/textareaInfo/config.vue'),
-//   },
-//   // 'brand_picture': {
-//   //   componentView: ()=> import('@c/brandPicture/index.vue'),
-//   //   componentConfig: ()=> import('@c/brandPicture/config.vue'),
-//   // }
-// }
+const formComponents = reactive([]); //表单组件列表
 const compMap = {
   'input': {
     componentView: DYInput,
     componentConfig: DYInputConfig
   },
-  'textarea': {
-    componentView: textareaInfo,
-    componentConfig: textareaInfoConfig
+  'radio': {
+    componentView: DYRadio,
+    componentConfig: DYRadioConfig
   },
-  // 'brand_picture': {
-  //   componentView: brandPicture,
-  //   componentConfig: brandPictureConfig
-  // }
+  'checkbox': {
+    componentView: DYCheckbox,
+    componentConfig: DYCheckboxConfig
+  },
+  'textarea': {
+    componentView: TextareaInfo,
+    componentConfig: TextareaInfoConfig
+  } 
 }
-const origComponents = reactive([
+
+// 组件库
+const origComponents = [
   {
     name: '输入框',
-    type: 'input',
-    value: '', //输入值
+    type: 'input',   
     required: false,
     disabled: false,
+    defaultValue: ''
+  },
+  {
+    name: '单选框',
+    type: 'radio',   
+    required: false,
+    disabled: false,
+    defaultValue: ''
+  },
+  {
+    name: '复选框',
+    type: 'checkbox',   
+    required: false,
+    disabled: false,
+    defaultValue: []
   },
   {
     name: '多行文本说明',
     type: 'textarea',
     content: '多行文本内容多行文本内容多行文本内容',
-  },
-  // {
-  //   name: '图片专栏',
-  //   type: 'brand_picture',
-  //   content: [
-  //     {
-  //       imgUrl: 'https://minio.yscredit.com/bch/images/8fdd6891264046638a32ebc7fb636401.jpg',
-  //       type: 'img'
-  //     },
-  //     {
-  //       imgUrl: 'https://minio.yscredit.com/bch/images/39c14b9c63304563ae8480e44e52bcfe.JPG',
-  //       type: 'img'
-  //     },
-  //     {
-  //       imgUrl: 'https://minio.yscredit.com/bch/images/cb76830dd54f41a88c5dad4f0a6da6ff.jpg',
-  //       type: 'img'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 4,
-  //   name: '产品专栏',
-  //   type: 'brand_product',
-  //   contentName: '实例-产品介绍',
-  //   content: [
-  //     {
-  //       name: '实例应用',
-  //       subName: '实例应用全名',
-  //       imgUrl: 'https://minio.yscredit.com/bch/images/02eee842f9c84c66baf179caf45d7a88.png'
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: 5,
-  //   name: '人物专栏',
-  //   type: 'brand_senior',
-  //   contentName: '实例-创始人搭档',
-  //   content: [
-  //     {
-  //       name: '姓名A',
-  //       title: '创始人/董事长',
-  //       imgUrl: 'https://minio.yscredit.com/bch/images/f8cf06d2748f46a288d92607533f6541.png'
-  //     }
-  //   ]
-  // }
-  // { id: 6, name: '公众号关注' }
-]);
-
-
+  }
+];
 
 // 获取唯一的组件id
 const getId = () => {
@@ -169,48 +121,40 @@ const setDrawingComp = (obj) => {
 }
 
 // 拖拽克隆组件
-const handleClone = (data) => {
-  const obj = toRaw(data);
+const handleClone = (obj) => {
+  // const obj = toRaw(obj);
   const copyObj = JSON.parse(JSON.stringify(obj))
   return setDrawingComp(copyObj)
-
-  // copyObj.id = getId()
-  // copyObj.componentView = DYInput,
-  // copyObj.componentConfig = DYInputConfig
-  // return copyObj;
-
 }
-
 
 const selectComp = (element) => {
   activeC.value = element
   dragCompStore.activeComp = activeC
 }
 
-const getActiveByStore = () => {
-  console.log(dragCompStore.activeComp);
-}
-
 // 克隆组件
 const cloneComp =(comp, index)=> {
   const obj = toRaw(comp);
   const copyObj = JSON.parse(JSON.stringify(obj))
-  // return setDrawingComp(copyObj)
   formComponents.splice(index, 0, setDrawingComp(copyObj))
 }
 
-// 导出json
+// 导出json,暂存sessionStorage
 const exportJSON = () => {
   let list = toRaw(formComponents)
   console.log(list);
-  // list= []
   sessionStorage.setItem('previewList', JSON.stringify(list))
 }
 
-
 // 表单预览
 const preView = () => {
+  exportJSON()
   router.push({ name: 'clientView' })
+}
+
+// 保存表单
+const saveForm = ()=> {
+
 }
 
 
@@ -229,9 +173,7 @@ const preView = () => {
   }
 
   .form-container {
-    // width: 400px;
     flex: 1;
-    // max-width: 400px;
     margin: 0 20px;
 
     .form-btns {
@@ -254,7 +196,6 @@ const preView = () => {
 }
 
 .form-item-wrap {
-  // margin: 8px 0;
   padding: 8px 5px;
 
   &.isActive {

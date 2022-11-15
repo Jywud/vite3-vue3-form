@@ -1,5 +1,9 @@
-<template>
-    <el-input v-model="compVal" :disabled="itemData.disabled" placeholder="请输入" />
+<template>  
+    <el-checkbox-group v-model="compVal" :disabled="itemData.disabled">
+        <el-checkbox label="1">Option 1</el-checkbox>
+        <el-checkbox label="2">Option 2</el-checkbox>
+        <el-checkbox label="3">Option 3</el-checkbox>
+    </el-checkbox-group>
 </template>
 <script setup>
 import { computed } from 'vue'
@@ -13,8 +17,8 @@ const props = defineProps({
         default: () => ({})
     },
     modelValue: {
-        type: String,
-        default: ''
+        type: Array,
+        default: ()=> []
     }
 })
 

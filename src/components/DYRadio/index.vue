@@ -1,5 +1,8 @@
-<template>
-    <el-input v-model="compVal" :disabled="itemData.disabled" placeholder="请输入" />
+<template>  
+    <el-radio-group v-model="compVal" :disabled="itemData.disabled">
+        <el-radio label="1" size="large">Option 1</el-radio>
+        <el-radio label="2" size="large">Option 2</el-radio>
+    </el-radio-group>
 </template>
 <script setup>
 import { computed } from 'vue'
