@@ -1,10 +1,12 @@
 <template>
     <div class="mt10">
-        <div>组件标题</div>
+        <div class="fontw">组件标题</div>
         <el-input v-model="activeComp.name" />
     </div>
-    <el-checkbox v-model="activeComp.required" label="是否必填" />
-    <el-checkbox v-model="activeComp.disabled" label="是否禁用" />
+    <div class="mt10">
+        <el-checkbox v-model="activeComp.required" label="是否必填" />
+        <el-checkbox v-model="activeComp.disabled" label="是否禁用" />
+    </div>
 </template>
 <script setup>
 defineProps({

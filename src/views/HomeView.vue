@@ -14,7 +14,7 @@
     <div class="form-container">
       <h3>表单编辑 </h3>
       <div class="form-btns">
-        <el-button type="primary" @click="exportJSON">导出json</el-button>
+        <!-- <el-button type="primary" @click="exportJSON">导出json</el-button> -->
         <el-button type="primary" @click="preView">预览表单</el-button>
         <el-button type="primary" @click="saveForm">保存</el-button>
       </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch, toRaw, onMounted } from 'vue';
+import { ref, reactive, toRaw, onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable';
 import {
@@ -162,7 +162,7 @@ const cloneComp = (comp, index) => {
 // 导出json,暂存sessionStorage
 const exportJSON = () => {
   let list = toRaw(formComponents.value)
-  console.log(list);
+  console.log('exportJSON', list);
   sessionStorage.setItem('previewList', JSON.stringify(list))
 }
 
@@ -174,13 +174,8 @@ const preView = () => {
 
 // 保存表单
 const saveForm = () => {
-
+  exportJSON()
 }
-
-
-// watch(formComponents.value, val => {
-//   console.log(val);
-// });
 </script>
 
 <style lang="less" scoped>
@@ -204,16 +199,23 @@ const saveForm = () => {
   .list-group {
     display: flex;
     flex-wrap: wrap;
+    margin-top: 10px;
 
     .list-group-item {
-      line-height: 40px;     
-      background-color: #999;
+      height: 32px;
+      line-height: 32px;     
+      background-color: #f4f6fc;
+      color: #333;
       margin-bottom: 10px;
       cursor: move;
       width: 150px;
       text-align: center;
       font-size: 13px;
       margin-right: 5px;
+      &:hover{
+        border: 1px dashed #0070ff;
+        color: #0070ff;
+      }
     }
   }
 
