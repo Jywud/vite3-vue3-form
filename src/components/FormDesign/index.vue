@@ -14,11 +14,13 @@
         <div class="form-design-container">
             <h3>表单编辑 </h3>
             <div class="form-btns-panel">
-                <el-button type="primary" @click="preView">预览表单</el-button>
-                <el-button type="primary" @click="saveForm">保存</el-button>
+                <slot name="formBtns">
+                    <!-- <el-button type="primary" @click="preView">预览表单</el-button> -->
+                    <!-- <el-button type="primary" @click="saveForm">保存</el-button> -->
+                </slot>
             </div>
             <draggable class="form-dragarea-box" :list="formComponents" group="dragComponets" animation="300"
-                item-key="name">
+                item-key="id">
                 <template #item="{ element, index }">
                     <div class="form-item-wrap" :class="{ isActive: activeComp.id === element.id }"
                         @click="selectComp(element)">
@@ -44,10 +46,10 @@
 </template>
   
 <script setup>
-import { ref, shallowReactive, toRaw, onMounted } from 'vue';
-import { useRouter } from 'vue-router'
+import { ref, shallowReactive, toRaw } from 'vue';
+// import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable';
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 import {
     Delete, CopyDocument
 } from '@element-plus/icons-vue'
@@ -56,26 +58,19 @@ import { baseComponents } from '@/common/const/componentLib.js'
 import { compMap } from '@/common/const/componentMap.js'
 //   import { useDragCompStore } from '@/stores/dragComp'
 
-let router = useRouter()
+// let router = useRouter()
 //   let dragCompStore = useDragCompStore()
 let activeComp = ref({});
 let formComponents = ref([]); //表单组件列表
 
-onMounted(() => {
-    // 还原表单
-    let previewList = sessionStorage.getItem('previewList')
-    if (previewList) {
-        let listcomp = JSON.parse(previewList)
-
-        if (listcomp.length === 0) return
-
-        formComponents.value = listcomp.map(item => {
-            return setDrawingComp(item)
-        })
-
-        activeComp.value = formComponents.value[0];
-    }
-})
+// const emits = defineEmits(['saveForm'])
+// 初始化设置form数据
+const setFormDesignData = (formDesignList) => {
+    formComponents.value = formDesignList.map(item => {
+        return setDrawingComp(item)
+    })
+    activeComp.value = formComponents.value[0];
+}
 
 // 获取唯一的组件id
 const getId = () => {
@@ -113,39 +108,42 @@ const cloneComp = (comp, index) => {
 const deleteComp = (index) => {
     formComponents.value.splice(index, 1)
     if (index > 0) {
-        setTimeout(()=> {
-           activeComp.value = formComponents.value[index - 1]
-       })
+        setTimeout(() => {
+            activeComp.value = formComponents.value[index - 1]
+        })
     }
 }
 
 /* =========表单按钮栏操作============== */
 
 // 导出json,暂存sessionStorage
-const exportJSON = () => {
-    let list = toRaw(formComponents.value)
-    console.log('exportJSON', list);
-    sessionStorage.setItem('previewList', JSON.stringify(list))
+const exportFormJSON = () => {
+    return toRaw(formComponents.value)
 }
 // 表单预览
-const preView = () => {
-    exportJSON()
+/* const preView = () => {
+    let list = exportFormJSON()
+    sessionStorage.setItem('formDesignList', JSON.stringify(list))
     router.push({ name: 'clientView' })
-}
+} */
 // 保存表单
-const saveForm = () => {
-    exportJSON()
+/* const saveForm = () => {
+    let list = exportFormJSON()
     ElMessage({
         message: '保存成功',
         type: 'success',
     })
-}
+    emits('saveForm', list)
+
+} */
+
+defineExpose({ setFormDesignData, exportFormJSON })
 </script>
   
 <style lang="less" scoped>
 .form-design-page {
     display: flex;
-    height: 100vh;
+    height: 100%;
     padding: 20px;
     background: #f8f8f8;
     overflow: hidden;
