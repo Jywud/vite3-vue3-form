@@ -1,3 +1,5 @@
+import { shallowRef } from 'vue';
+
 import DYInput from '@c/DYInput/index.vue';
 import DYInputConfig from '@c/DYInput/config.vue';
 import DYRadio from '@c/DYRadio/index.vue';
@@ -7,21 +9,23 @@ import DYCheckboxConfig from '@c/DYCheckbox/config.vue';
 import TextareaInfo from '@c/TextareaInfo/index.vue';
 import TextareaInfoConfig from '@c/TextareaInfo/config.vue';
 
+
+/* !!!这里使用shallowRef组件优化性能 */
 export const compMap = {
   input: {
-    componentView: DYInput,
-    componentConfig: DYInputConfig,
+    componentView: shallowRef(DYInput),
+    componentConfig: shallowRef(DYInputConfig),
   },
   radio: {
-    componentView: DYRadio,
-    componentConfig: DYRadioConfig,
+    componentView: shallowRef(DYRadio),
+    componentConfig: shallowRef(DYRadioConfig),
   },
   checkbox: {
-    componentView: DYCheckbox,
-    componentConfig: DYCheckboxConfig,
+    componentView: shallowRef(DYCheckbox),
+    componentConfig: shallowRef(DYCheckboxConfig),
   },
   textareaInfo: {
-    componentView: TextareaInfo,
-    componentConfig: TextareaInfoConfig,
+    componentView: shallowRef(TextareaInfo),
+    componentConfig: shallowRef(TextareaInfoConfig),
   },
 };
