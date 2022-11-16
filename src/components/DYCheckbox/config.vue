@@ -1,6 +1,6 @@
 <template>
     <div class="mt10">
-        <div class="mb10 fontw">组件标题</div>
+        <div class="mb10 fontw">标题</div>
         <el-input v-model="activeComp.name" />
     </div>
     <div>

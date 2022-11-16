@@ -1,5 +1,5 @@
 <template>
-    <el-input v-model="compVal" :disabled="itemData.disabled" placeholder="请输入" />
+    <el-input v-model="compVal" :disabled="itemData.disabled" :placeholder="itemData.placeholder" />
 </template>
 <script setup>
 import { computed } from 'vue'
