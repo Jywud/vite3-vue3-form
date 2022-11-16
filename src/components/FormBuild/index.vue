@@ -14,7 +14,7 @@
   
 <script setup>
 import { ref, reactive, toRaw } from 'vue';
-import { compMap } from '@/common/const/componentMap.js'
+import { compMap } from '../componentMap.js'
 
 let formRef = ref(null)
 const formRules = reactive({}) //表单规则校验

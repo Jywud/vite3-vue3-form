@@ -54,8 +54,8 @@ import {
     Delete, CopyDocument
 } from '@element-plus/icons-vue'
 
-import { baseComponents } from '@/common/const/componentLib.js'
-import { compMap } from '@/common/const/componentMap.js'
+import { baseComponents } from '../componentLib.js'
+import { compMap } from '../componentMap.js'
 //   import { useDragCompStore } from '@/stores/dragComp'
 
 // let router = useRouter()
