@@ -36,6 +36,20 @@ export const baseComponents = [
     },
   },
   {
+    name: "下拉选择框",
+    type: "select",
+    required: false,
+    disabled: false,
+    defaultValue: "",
+    config: {
+      options: [
+        { value: "1", name: "选项一" },
+        { value: "2", name: "选项二" },
+        { value: "3", name: "选项三" },
+      ],
+    },
+  },
+  {
     name: "多行文本说明",
     type: "textareaInfo",
     content: "多行文本内容多行文本内容多行文本内容",

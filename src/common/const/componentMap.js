@@ -6,6 +6,8 @@ import DYRadio from '@c/DYRadio/index.vue';
 import DYRadioConfig from '@c/DYRadio/config.vue';
 import DYCheckbox from '@c/DYCheckbox/index.vue';
 import DYCheckboxConfig from '@c/DYCheckbox/config.vue';
+import DYSelect from '@c/DYSelect/index.vue';
+import DYSelectConfig from '@c/DYSelect/config.vue';
 import TextareaInfo from '@c/TextareaInfo/index.vue';
 import TextareaInfoConfig from '@c/TextareaInfo/config.vue';
 
@@ -27,5 +29,9 @@ export const compMap = {
   textareaInfo: {
     componentView: shallowRef(TextareaInfo),
     componentConfig: shallowRef(TextareaInfoConfig),
+  },
+  select: {
+    componentView: shallowRef(DYSelect),
+    componentConfig: shallowRef(DYSelectConfig),
   },
 };

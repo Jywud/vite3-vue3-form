@@ -68,7 +68,7 @@ const initFormRender = () => {
         // 设置表单规则
         if (item.type === 'input') {
             formRules[item.id] = [{ required: item.required, message: '请输入', trigger: 'blur' }]
-        } else if (item.type === 'radio' || item.type === 'checkbox') {
+        } else if (item.type === 'radio' || item.type === 'checkbox' || item.type === 'select') {
             formRules[item.id] = [{ required: item.required, message: '请选择', trigger: 'change' }]
         }
     })
