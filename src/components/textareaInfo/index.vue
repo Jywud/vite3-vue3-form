@@ -1,8 +1,8 @@
 <template>
     <div class="chunk-box">
         <div class="content-box">
-            {{ isunFold ? itemData.content : origText }}
-            <text class="is-unfold" v-if="itemData.content.length > 75" @click="isunFold = !isunFold">{{ isunFold ?
+            {{ isunFold ? compData.content : origText }}
+            <text class="is-unfold" v-if="compData.content.length > 75" @click="isunFold = !isunFold">{{ isunFold ?
                     '收起' : '展开'
             }}</text>
         </div>
@@ -12,7 +12,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 const props = defineProps({
-    itemData: {
+    compData: {
         type: Object,
         default: () => ({})
     }
@@ -20,10 +20,10 @@ const props = defineProps({
 let isunFold = ref(false)
 
 let origText = computed(() => {
-    if (props.itemData.content.length > 100) {
-        return props.itemData.content.slice(0, 100) + '...';
+    if (props.compData.content.length > 100) {
+        return props.compData.content.slice(0, 100) + '...';
     } else {
-        return props.itemData.content;
+        return props.compData.content;
     }
 })
 </script>

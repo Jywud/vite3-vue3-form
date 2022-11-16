@@ -1,6 +1,6 @@
 <template>  
-    <el-radio-group v-model="compVal" :disabled="itemData.disabled">
-        <el-radio :label="item.value"  v-for="item in itemData.config.options" :key="item.value">{{ item.name }}</el-radio>
+    <el-radio-group v-model="compVal" :disabled="compData.disabled">
+        <el-radio :label="item.value"  v-for="item in compData.config.options" :key="item.value">{{ item.name }}</el-radio>
     </el-radio-group>
 </template>
 <script setup>
@@ -10,7 +10,7 @@ const props = defineProps({
         type: String,
         default: ''
     },
-    itemData: {
+    compData: {
         type: Object,
         default: () => ({})
     },

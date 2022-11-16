@@ -1,5 +1,5 @@
 <template>
-    <el-input v-model="compVal" :disabled="itemData.disabled" :placeholder="itemData.placeholder" />
+    <el-input v-model="compVal" :disabled="compData.disabled" :placeholder="compData.placeholder" />
 </template>
 <script setup>
 import { computed } from 'vue'
@@ -8,7 +8,7 @@ const props = defineProps({
         type: String,
         default: ''
     },
-    itemData: {
+    compData: {
         type: Object,
         default: () => ({})
     },

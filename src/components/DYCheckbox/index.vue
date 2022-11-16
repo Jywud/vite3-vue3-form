@@ -1,6 +1,6 @@
 <template>  
-    <el-checkbox-group v-model="compVal" :disabled="itemData.disabled">
-        <el-checkbox :label="item.value"  v-for="item in itemData.config.options" :key="item.value">{{ item.name }}</el-checkbox>     
+    <el-checkbox-group v-model="compVal" :disabled="compData.disabled">
+        <el-checkbox :label="item.value"  v-for="item in compData.config.options" :key="item.value">{{ item.name }}</el-checkbox>     
     </el-checkbox-group>
 </template>
 <script setup>
@@ -10,7 +10,7 @@ const props = defineProps({
         type: String,
         default: ''
     },
-    itemData: {
+    compData: {
         type: Object,
         default: () => ({})
     },
