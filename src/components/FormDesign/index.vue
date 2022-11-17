@@ -124,7 +124,7 @@ const exportFormJSON = () => {
 /* const preView = () => {
     let list = exportFormJSON()
     sessionStorage.setItem('formDesignList', JSON.stringify(list))
-    router.push({ name: 'clientView' })
+    router.push({ name: 'formBuildView' })
 } */
 // 保存表单
 /* const saveForm = () => {

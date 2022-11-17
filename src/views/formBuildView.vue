@@ -1,4 +1,5 @@
 <template>
+  <!-- 表单渲染使用测试页面 -->
   <FormBuild ref="formBuild" @validateSuccess="validateSuccess"></FormBuild>
 </template>
 

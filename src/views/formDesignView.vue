@@ -1,4 +1,5 @@
 <template>
+  <!-- 表单设计测试页面 -->
   <div class="design-page">
     <FormDesign ref="formDesign" @saveForm="saveForm">
       <template #formBtns>
@@ -46,7 +47,7 @@ const saveForm = () => {
 const preFormView = () => {
   let json = exportJSON()
   if (json.length > 0) {
-    router.push({ name: 'clientView' })
+    router.push({ name: 'formBuildView' })
   } else {
     ElMessage({
       message: '表单为空',
